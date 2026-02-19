@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Employee Verification</title>
+<style>
+body{
+    font-family:Arial;
+    text-align:center;
+    margin-top:100px;
+}
+.valid{color:green;font-size:24px;}
+.invalid{color:red;font-size:24px;}
+</style>
+</head>
+<body>
+
+<div id="result">Checking...</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+fetch("employees.json")
+.then(res => res.json())
+.then(data => {
+
+    const employee = data.find(emp => emp.id === id);
+
+    if(employee){
+        document.getElementById("result").innerHTML = `
+            <h1>${employee.name}</h1>
+            <h3>${employee.company}</h3>
+            <p class="valid">Verified Employee ✅</p>
+        `;
+    }else{
+        document.getElementById("result").innerHTML = `
+            <p class="invalid">Invalid Badge ❌</p>
+        `;
+    }
+});
+</script>
+
+</body>
+</html>
